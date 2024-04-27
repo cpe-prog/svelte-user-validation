@@ -12,13 +12,16 @@ export const load: PageServerLoad = async () => {
 
 export const actions: Actions = {
 	default: async (event) => {
-		console.log('Not valid');
 		const form = await superValidate(event, zod(formSchema));
 		if (!form.valid) {
 			return fail(400, {
 				form
 			});
 		}
+
+		const data = form.data;
+		console.log(data);
+
 		return {
 			form
 		};
