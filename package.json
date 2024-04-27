@@ -5,8 +5,8 @@
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
-    "preview": "vite preview",    
-		"db:push": "drizzle-kit push:sqlite --config=drizzle.config.ts",
+    "preview": "vite preview",
+    "db:push": "drizzle-kit push:sqlite --config=drizzle.config.ts",
     "db:studio": "drizzle-kit studio",
     "db:generate": "npx drizzle-kit generate:sqlite --config drizzle.config.ts",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
@@ -43,6 +43,7 @@
     "@libsql/client": "^0.6.0",
     "@lucia-auth/adapter-drizzle": "^1.0.7",
     "arctic": "^1.7.0",
+    "bcrypt": "^5.1.1",
     "bits-ui": "^0.21.5",
     "clsx": "^2.1.1",
     "dotenv": "^16.4.5",
