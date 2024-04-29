@@ -1,7 +1,8 @@
 import { z } from 'zod';
 
 export const formSchema = z.object({
-	fullname: z.string().min(3, 'Invalid Full Name'),
+	firstName: z.string().min(3, 'First Name must have 3 letters'),
+	lastName: z.string().min(3, 'Last Name must have 3 letters'),
 	email: z
 		.string()
 		.min(5, 'Email must be at least 5 characters long')

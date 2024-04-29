@@ -24,7 +24,7 @@
 			<Form.Field class="mb-5" {form} name="email">
 				<Form.Control let:attrs>
 					<Form.Label>Email</Form.Label>
-					<Input type="email" placeholder="email" {...attrs} bind:value={$formData.email} />
+					<Input type="text" placeholder="email" {...attrs} bind:value={$formData.email} />
 				</Form.Control>
 				<Form.FieldErrors />
 			</Form.Field>

@@ -1,14 +1,32 @@
 <script lang="ts">
 	import * as Form from '$lib/components/ui/form';
 	import { Input } from '$lib/components/ui/input';
+	import { Ellipsis } from 'lucide-svelte';
+	import { toast } from 'svelte-sonner';
 	import { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import { formSchema, type FormSchema } from './schema';
 
-	export let data: SuperValidated<Infer<FormSchema>>;
+	$: isSubmitting = false;
+	$: isErrorMessage = false;
 
+	export let data: SuperValidated<Infer<FormSchema>>;
 	const form = superForm(data, {
-		validators: zodClient(formSchema)
+		resetForm: false,
+		validators: zodClient(formSchema),
+
+		onSubmit: async () => {
+			isSubmitting = true;
+		},
+		onResult: ({ result }) => {
+			if (result.status === 400) {
+				toast.error('Cannot register user');
+			} else {
+				toast.success('User Register Successfull!');
+			}
+
+			isSubmitting = false;
+		}
 	});
 
 	const { form: formData, enhance } = form;
@@ -21,10 +39,17 @@
 		</div>
 		<h2 class="mb-5 text-center">Register to SvelteUI</h2>
 		<div class="rounded-lg border border-secondary p-6">
-			<Form.Field class="mb-5" {form} name="fullname">
+			<Form.Field class="mb-5" {form} name="firstName">
 				<Form.Control let:attrs>
-					<Form.Label>Full Name</Form.Label>
-					<Input type="text" {...attrs} bind:value={$formData.fullname} placeholder="Full Name" />
+					<Form.Label>First Name</Form.Label>
+					<Input type="text" {...attrs} bind:value={$formData.firstName} placeholder="First Name" />
+				</Form.Control>
+				<Form.FieldErrors />
+			</Form.Field>
+			<Form.Field class="mb-5" {form} name="lastName">
+				<Form.Control let:attrs>
+					<Form.Label>Last Name</Form.Label>
+					<Input type="text" {...attrs} bind:value={$formData.lastName} placeholder="Last Name" />
 				</Form.Control>
 				<Form.FieldErrors />
 			</Form.Field>
@@ -47,7 +72,18 @@
 				</Form.Control>
 				<Form.FieldErrors />
 			</Form.Field>
-			<Form.Button class="mt-5 w-full" size="sm" variant="secondary">Register</Form.Button>
+			<Form.Button
+				class="mt-5 w-full"
+				disabled={isErrorMessage || isSubmitting}
+				size="sm"
+				variant={isSubmitting || isErrorMessage ? 'outline' : 'secondary'}
+			>
+				{#if (isSubmitting = true)}
+					<Ellipsis />
+				{:else}
+					Register
+				{/if}
+			</Form.Button>
 		</div>
 		<h4 class="mt-4 text-center">
 			Have an account? <a class="hover:text-slate-500 hover:underline" href="/login">Login</a>
