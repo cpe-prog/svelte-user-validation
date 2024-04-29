@@ -1,7 +1,7 @@
 <script lang="ts">
 	import * as Form from '$lib/components/ui/form';
 	import { Input } from '$lib/components/ui/input';
-	import { toast } from 'svelte-sonner';
+	import { Toaster, toast } from 'svelte-sonner';
 	import { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import { formSchema, type FormSchema } from './schema';
@@ -25,6 +25,9 @@
 			}
 
 			isSubmitting = false;
+		},
+		onError: (er) => {
+			console.log(er);
 		}
 	});
 
@@ -32,6 +35,7 @@
 </script>
 
 <div class="flex h-screen w-full items-center justify-center">
+	<Toaster />
 	<form class="w-80" method="POST" use:enhance>
 		<div class=" flex items-center justify-center">
 			<img width="90" src="/logo.png" alt="svelteui" />

@@ -25,6 +25,25 @@ export const actions: Actions = {
 			});
 		}
 
+		// const formData = await event.request.formData();
+		// const email = formData.get('email');
+		// const password = formData.get('password');
+		// if (
+		// 	typeof email !== 'string' ||
+		// 	email.length < 3 ||
+		// 	email.length > 31 ||
+		// 	!/^[a-z0-9_-]+$/.test(email)
+		// ) {
+		// 	return fail(400, {
+		// 		message: 'Invalid email'
+		// 	});
+		// }
+		// if (typeof password !== 'string' || password.length < 6 || password.length > 255) {
+		// 	return fail(400, {
+		// 		message: 'Invalid password'
+		// 	});
+		// }
+
 		const hashPassword = await new Argon2id().hash(form.data.password);
 		const id = generateId(30);
 
