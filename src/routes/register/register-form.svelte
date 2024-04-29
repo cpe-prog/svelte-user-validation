@@ -1,7 +1,6 @@
 <script lang="ts">
 	import * as Form from '$lib/components/ui/form';
 	import { Input } from '$lib/components/ui/input';
-	import { Ellipsis } from 'lucide-svelte';
 	import { toast } from 'svelte-sonner';
 	import { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
@@ -33,26 +32,34 @@
 </script>
 
 <div class="flex h-screen w-full items-center justify-center">
-	<form class=" w-80" method="POST" use:enhance>
+	<form class="w-80" method="POST" use:enhance>
 		<div class=" flex items-center justify-center">
 			<img width="90" src="/logo.png" alt="svelteui" />
 		</div>
 		<h2 class="mb-5 text-center">Register to SvelteUI</h2>
 		<div class="rounded-lg border border-secondary p-6">
-			<Form.Field class="mb-5" {form} name="firstName">
-				<Form.Control let:attrs>
-					<Form.Label>First Name</Form.Label>
-					<Input type="text" {...attrs} bind:value={$formData.firstName} placeholder="First Name" />
-				</Form.Control>
-				<Form.FieldErrors />
-			</Form.Field>
-			<Form.Field class="mb-5" {form} name="lastName">
-				<Form.Control let:attrs>
-					<Form.Label>Last Name</Form.Label>
-					<Input type="text" {...attrs} bind:value={$formData.lastName} placeholder="Last Name" />
-				</Form.Control>
-				<Form.FieldErrors />
-			</Form.Field>
+			<div class="mb-3 flex items-center justify-center gap-2">
+				<Form.Field {form} name="firstName">
+					<Form.Control let:attrs>
+						<Form.Label>First Name</Form.Label>
+						<Input
+							type="text"
+							{...attrs}
+							bind:value={$formData.firstName}
+							placeholder="First Name"
+						/>
+					</Form.Control>
+					<Form.FieldErrors />
+				</Form.Field>
+				<Form.Field {form} name="lastName">
+					<Form.Control let:attrs>
+						<Form.Label>Last Name</Form.Label>
+						<Input type="text" {...attrs} bind:value={$formData.lastName} placeholder="Last Name" />
+					</Form.Control>
+					<Form.FieldErrors />
+				</Form.Field>
+			</div>
+
 			<Form.Field class="mb-5" {form} name="email">
 				<Form.Control let:attrs>
 					<Form.Label>Email</Form.Label>
@@ -76,14 +83,8 @@
 				class="mt-5 w-full"
 				disabled={isErrorMessage || isSubmitting}
 				size="sm"
-				variant={isSubmitting || isErrorMessage ? 'outline' : 'secondary'}
+				variant={isSubmitting || isErrorMessage ? 'outline' : 'secondary'}>Register</Form.Button
 			>
-				{#if (isSubmitting = true)}
-					<Ellipsis />
-				{:else}
-					Register
-				{/if}
-			</Form.Button>
 		</div>
 		<h4 class="mt-4 text-center">
 			Have an account? <a class="hover:text-slate-500 hover:underline" href="/login">Login</a>

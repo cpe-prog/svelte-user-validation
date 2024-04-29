@@ -16,7 +16,8 @@ export const load: PageServerLoad = async () => {
 };
 
 export const actions: Actions = {
-	register: async (event) => {
+	default: async (event) => {
+		console.log('valid');
 		const form = await superValidate(event, zod(formSchema));
 		if (!form.valid) {
 			return fail(400, {
@@ -25,7 +26,7 @@ export const actions: Actions = {
 		}
 
 		const hashPassword = await new Argon2id().hash(form.data.password);
-		const id = generateId(10);
+		const id = generateId(30);
 
 		await db.insert(user).values({
 			id,
@@ -39,7 +40,6 @@ export const actions: Actions = {
 			hashPassword: hashPassword,
 			avatarUrl: ''
 		});
-
 		const session = await lucia.createSession(id, {});
 		const sessionCookie = lucia.createSessionCookie(session.id);
 		event.cookies.set(sessionCookie.name, sessionCookie.value, {
@@ -47,6 +47,6 @@ export const actions: Actions = {
 			...sessionCookie.attributes
 		});
 
-		redirect(302, '/login');
+		return redirect(302, '/login');
 	}
 };
