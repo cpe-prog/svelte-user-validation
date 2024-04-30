@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { PageData } from './$types.js';
-	import RegisterForm from './register-form.svelte';
+	import RegisterForm from './form.svelte';
 	export let data: PageData;
 </script>
 
