@@ -1,8 +1,10 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import Button from '$lib/components/ui/button/button.svelte';
-	import { Moon, Sun } from 'lucide-svelte';
+	import * as Avatar from '$lib/components/ui/avatar/index.js';
+	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
+	import { MoonStar, Sun } from 'lucide-svelte';
 	import { toggleMode } from 'mode-watcher';
+	import Button from './ui/button/button.svelte';
 </script>
 
 <aside class="fixed w-full shadow-white drop-shadow-md backdrop-blur-md">
@@ -67,8 +69,8 @@
 		</nav>
 
 		<div class=" flex gap-8">
-			<Button on:click={toggleMode} variant="outline" size="icon">
-				<Moon
+			<Button on:click={toggleMode} variant="ghost" class="hover:bg-gray-500" size="icon">
+				<MoonStar
 					class="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0"
 				/>
 				<Sun
@@ -76,9 +78,75 @@
 				/>
 				<span class="sr-only">Toggle theme</span>
 			</Button>
-			<form method="POST" use:enhance>
-				<button></button>
-			</form>
+			<DropdownMenu.Root>
+				<DropdownMenu.Trigger asChild let:builder>
+					<Button
+						builders={[builder]}
+						variant="ghost"
+						class="rounded-full bg-transparent hover:bg-transparent"
+						size="icon"
+					>
+						<Avatar.Root>
+							<Avatar.Image
+								sizes="icon"
+								src="https://avatars.githubusercontent.com/u/110281965?v=4"
+								alt="@shadcn"
+							/>
+							<Avatar.Fallback>CN</Avatar.Fallback>
+						</Avatar.Root>
+					</Button>
+				</DropdownMenu.Trigger>
+				<DropdownMenu.Content class="w-56">
+					<DropdownMenu.Label>My Account</DropdownMenu.Label>
+					<DropdownMenu.Separator />
+					<DropdownMenu.Group>
+						<DropdownMenu.Item>
+							Profile
+							<DropdownMenu.Shortcut>⇧⌘P</DropdownMenu.Shortcut>
+						</DropdownMenu.Item>
+						<DropdownMenu.Item>
+							Billing
+							<DropdownMenu.Shortcut>⌘B</DropdownMenu.Shortcut>
+						</DropdownMenu.Item>
+						<DropdownMenu.Item>
+							Settings
+							<DropdownMenu.Shortcut>⌘S</DropdownMenu.Shortcut>
+						</DropdownMenu.Item>
+						<DropdownMenu.Item>
+							Keyboard shortcuts
+							<DropdownMenu.Shortcut>⌘K</DropdownMenu.Shortcut>
+						</DropdownMenu.Item>
+					</DropdownMenu.Group>
+					<DropdownMenu.Separator />
+					<DropdownMenu.Group>
+						<DropdownMenu.Item>Team</DropdownMenu.Item>
+						<DropdownMenu.Sub>
+							<DropdownMenu.SubTrigger>Invite users</DropdownMenu.SubTrigger>
+							<DropdownMenu.SubContent>
+								<DropdownMenu.Item>Email</DropdownMenu.Item>
+								<DropdownMenu.Item>Message</DropdownMenu.Item>
+								<DropdownMenu.Separator />
+								<DropdownMenu.Item>More...</DropdownMenu.Item>
+							</DropdownMenu.SubContent>
+						</DropdownMenu.Sub>
+						<DropdownMenu.Item>
+							New Team
+							<DropdownMenu.Shortcut>⌘+T</DropdownMenu.Shortcut>
+						</DropdownMenu.Item>
+					</DropdownMenu.Group>
+					<DropdownMenu.Separator />
+					<DropdownMenu.Item>GitHub</DropdownMenu.Item>
+					<DropdownMenu.Item>Support</DropdownMenu.Item>
+					<DropdownMenu.Item>API</DropdownMenu.Item>
+					<DropdownMenu.Separator />
+					<DropdownMenu.Item>
+						<form method="POST" use:enhance>
+							<button>Log out</button>
+						</form>
+						<DropdownMenu.Shortcut>⇧⌘Q</DropdownMenu.Shortcut>
+					</DropdownMenu.Item>
+				</DropdownMenu.Content>
+			</DropdownMenu.Root>
 		</div>
 	</div>
 </aside>
