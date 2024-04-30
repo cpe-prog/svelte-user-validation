@@ -5,11 +5,7 @@ import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async (event) => {
 	if (!event.locals.user) redirect(302, '/login');
-	return {
-		firstName: event.locals.user.firstName,
-		lastName: event.locals.user.lastName,
-		email: event.locals.user.email
-	};
+	redirect(302, '/dashboard');
 };
 
 export const actions: Actions = {
