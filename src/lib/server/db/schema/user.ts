@@ -12,7 +12,7 @@ export const user = sqliteTable(
 		role: text('role', { enum: ['customer', 'store_owner', 'admin'] }).notNull(),
 		email: text('email', { length: 100 }).notNull(),
 		username: text('username', { length: 100 }).notNull(),
-		hashPassword: text('hash_password', { length: 255 }),
+		hashPassword: text('hash_password', { length: 255 }).notNull(),
 		avatarUrl: text('avatar_url', { length: 255 })
 	},
 	(table) => {
@@ -38,4 +38,3 @@ export const sessionRelations = relations(session, ({ one }) => ({
 		references: [user.id]
 	})
 }));
-
