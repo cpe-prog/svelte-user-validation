@@ -1,14 +1,14 @@
 <script lang="ts">
 	import * as Form from '$lib/components/ui/form';
 	import { Input } from '$lib/components/ui/input';
-	import { error } from '@sveltejs/kit';
+	import { Reload } from 'svelte-radix';
 	import { Toaster, toast } from 'svelte-sonner';
 	import { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import { formSchema, type FormSchema } from './schema';
 
 	$: isSubmitting = false;
-	$: isErrorMessage = false;
+	$: isErrorMessage = '';
 
 	export let data: SuperValidated<Infer<FormSchema>>;
 	const form = superForm(data, {
@@ -18,19 +18,10 @@
 		onSubmit: async () => {
 			isSubmitting = true;
 		},
-		onResult: ({ result }) => {
-			if (result.status === 400) {
-				toast.error('Cannot register user');
-				console.log(error);
-			} else {
-				toast.success('User Register Successfull!');
-			}
 
+		onError: () => {
 			isSubmitting = false;
-		},
-		onError: (er) => {
-			console.log(er);
-			console.log(error);
+			toast.error('Cannot register user');
 		}
 	});
 
@@ -87,11 +78,18 @@
 				<Form.FieldErrors />
 			</Form.Field>
 			<Form.Button
-				class="mt-5 w-full"
-				disabled={isErrorMessage || isSubmitting}
+				class={`mt-5 w-full ${isErrorMessage || (isSubmitting && 'hover:cursor-not-allowed')}`}
+				disabled={isSubmitting}
 				size="sm"
-				variant={isSubmitting || isErrorMessage ? 'outline' : 'secondary'}>Register</Form.Button
+				variant={isSubmitting || isErrorMessage ? 'outline' : 'secondary'}
 			>
+				{#if isSubmitting}
+					<Reload class="mr-2 h-4 w-4 animate-spin" />
+					Registering
+				{:else}
+					Register
+				{/if}
+			</Form.Button>
 		</div>
 		<h4 class="mt-4 text-center">
 			Have an account? <a class="hover:text-slate-500 hover:underline" href="/login">Login</a>

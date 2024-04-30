@@ -34,7 +34,7 @@ export const actions: Actions = {
 		if (existingUser.length > 0) {
 			return fail(400, {
 				form,
-				error: 'Email is already in used'
+				message: 'Email is already in used'
 			});
 		}
 
