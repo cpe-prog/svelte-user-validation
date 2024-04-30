@@ -1,10 +1,11 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import { Moon, Sun } from 'lucide-svelte';
 	import { toggleMode } from 'mode-watcher';
 </script>
 
-<div class="fixed w-full shadow-white drop-shadow-md">
+<aside class="fixed w-full shadow-white drop-shadow-md backdrop-blur-md">
 	<div class="flex items-center justify-between p-2 pl-5 pr-5">
 		<nav class="flex items-center gap-5 font-semibold">
 			<a href="/" class="flex items-center">
@@ -54,13 +55,13 @@
 
 			<ul class="flex gap-5">
 				<li>
-					<a href="/docs">Docs</a>
+					<a href="/">Docs</a>
 				</li>
 				<li>
-					<a href="/components">Components</a>
+					<a href="/">Components</a>
 				</li>
 				<li>
-					<a href="/about">About</a>
+					<a href="/">About</a>
 				</li>
 			</ul>
 		</nav>
@@ -75,7 +76,9 @@
 				/>
 				<span class="sr-only">Toggle theme</span>
 			</Button>
-			<Button class="bg-cyan-500" href="/login" size="sm">Login</Button>
+			<form method="POST" use:enhance>
+				<button></button>
+			</form>
 		</div>
 	</div>
-</div>
+</aside>
