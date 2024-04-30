@@ -5,6 +5,7 @@
 </script>
 
 <svelte:head>
-	<title>Register</title>
+	<title>Login</title>
 </svelte:head>
+
 <RegisterForm data={data.form} />

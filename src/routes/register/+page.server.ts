@@ -7,11 +7,10 @@ import { generateId } from 'lucia';
 import { Argon2id } from 'oslo/password';
 import { superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
-import type { Actions, PageServerLoad } from './$types.js';
+import type { Actions, PageServerLoad } from '../$types.js';
 import { formSchema } from './schema';
 
-export const load: PageServerLoad = async (event) => {
-	if (!event.locals.user) redirect(302, '/login');
+export const load: PageServerLoad = async () => {
 	return {
 		form: await superValidate(zod(formSchema))
 	};
@@ -33,8 +32,7 @@ export const actions: Actions = {
 
 		if (existingUser.length > 0) {
 			return fail(400, {
-				form,
-				message: 'Email is already in used'
+				form
 			});
 		}
 

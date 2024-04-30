@@ -19,13 +19,22 @@
 			isSubmitting = true;
 		},
 
+		onResult: () => {
+			isErrorMessage = $message;
+			if ($message) {
+				toast.error($message);
+			}
+
+			isSubmitting = false;
+		},
+
 		onError: () => {
 			isSubmitting = false;
 			toast.error('Cannot register user');
 		}
 	});
 
-	const { form: formData, enhance } = form;
+	const { form: formData, enhance, message } = form;
 </script>
 
 <div class="flex h-screen w-full items-center justify-center">
