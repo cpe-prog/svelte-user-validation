@@ -2,6 +2,7 @@ import { lucia } from '$lib/server/auth';
 import { db } from '$lib/server/db';
 import { user } from '$lib/server/db/schema';
 import { fail, redirect } from '@sveltejs/kit';
+import { eq } from 'drizzle-orm';
 import { generateId } from 'lucia';
 import { Argon2id } from 'oslo/password';
 import { superValidate } from 'sveltekit-superforms';
@@ -9,7 +10,8 @@ import { zod } from 'sveltekit-superforms/adapters';
 import type { Actions, PageServerLoad } from './$types.js';
 import { formSchema } from './schema';
 
-export const load: PageServerLoad = async () => {
+export const load: PageServerLoad = async (event) => {
+	if (!event.locals.user) redirect(302, '/login');
 	return {
 		form: await superValidate(zod(formSchema))
 	};
@@ -17,35 +19,24 @@ export const load: PageServerLoad = async () => {
 
 export const actions: Actions = {
 	default: async (event) => {
-		console.log('valid');
 		const form = await superValidate(event, zod(formSchema));
 		if (!form.valid) {
 			return fail(400, {
 				form
 			});
 		}
-
-		const formData = await event.request.formData();
-		const email = formData.get('email');
-		const password = formData.get('password');
-		if (
-			typeof email !== 'string' ||
-			email.length < 3 ||
-			email.length > 31 ||
-			!/^[a-z0-9_-]+$/.test(email)
-		) {
-			return fail(400, {
-				message: 'Invalid email'
-			});
-		}
-		if (typeof password !== 'string' || password.length < 6 || password.length > 255) {
-			return fail(400, {
-				message: 'Invalid password'
-			});
-		}
-
 		const hashPassword = await new Argon2id().hash(form.data.password);
 		const id = generateId(30);
+
+		const existingEmail = form.data.email;
+		const existingUser = await db.select().from(user).where(eq(user.email, existingEmail));
+
+		if (existingUser.length > 0) {
+			return fail(400, {
+				form,
+				error: 'Email is already in used'
+			});
+		}
 
 		await db.insert(user).values({
 			id,
@@ -59,6 +50,7 @@ export const actions: Actions = {
 			hashPassword: hashPassword,
 			avatarUrl: ''
 		});
+
 		const session = await lucia.createSession(id, {});
 		const sessionCookie = lucia.createSessionCookie(session.id);
 		event.cookies.set(sessionCookie.name, sessionCookie.value, {

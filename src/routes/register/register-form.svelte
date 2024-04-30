@@ -1,6 +1,7 @@
 <script lang="ts">
 	import * as Form from '$lib/components/ui/form';
 	import { Input } from '$lib/components/ui/input';
+	import { error } from '@sveltejs/kit';
 	import { Toaster, toast } from 'svelte-sonner';
 	import { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
@@ -20,6 +21,7 @@
 		onResult: ({ result }) => {
 			if (result.status === 400) {
 				toast.error('Cannot register user');
+				console.log(error);
 			} else {
 				toast.success('User Register Successfull!');
 			}
@@ -28,6 +30,7 @@
 		},
 		onError: (er) => {
 			console.log(er);
+			console.log(error);
 		}
 	});
 
