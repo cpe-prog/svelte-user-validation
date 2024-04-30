@@ -7,7 +7,7 @@
 	import Button from './ui/button/button.svelte';
 </script>
 
-<aside class="fixed w-full shadow-white drop-shadow-md backdrop-blur-md">
+<main class="fixed w-full shadow-white drop-shadow-md backdrop-blur-md">
 	<div class="flex items-center justify-between p-2 pl-5 pr-5">
 		<nav class="flex items-center gap-5 font-semibold">
 			<a href="/" class="flex items-center">
@@ -69,7 +69,7 @@
 		</nav>
 
 		<div class=" flex gap-8">
-			<Button on:click={toggleMode} variant="ghost" class="hover:bg-gray-500" size="icon">
+			<Button on:click={toggleMode} variant="ghost" size="icon">
 				<MoonStar
 					class="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0"
 				/>
@@ -149,4 +149,4 @@
 			</DropdownMenu.Root>
 		</div>
 	</div>
-</aside>
+</main>
