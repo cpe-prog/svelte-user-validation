@@ -8,7 +8,8 @@ export const load: PageServerLoad = async (event) => {
 	return {
 		firstName: event.locals.user.firstName,
 		lastName: event.locals.user.lastName,
-		email: event.locals.user.email
+		email: event.locals.user.email,
+		content: 'This is a sample report generated with jsPDF in SvelteKit.'
 	};
 };
 
