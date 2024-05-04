@@ -7,7 +7,7 @@
 	import Button from './ui/button/button.svelte';
 </script>
 
-<main class="fixed w-full shadow-white drop-shadow-md backdrop-blur-md">
+<div class="fixed w-full shadow-white drop-shadow-md backdrop-blur-md">
 	<div class=" flex items-center justify-between p-2 pl-5 pr-5">
 		<nav class="flex items-center gap-5 font-semibold">
 			<a href="/" class="flex items-center">
@@ -149,4 +149,4 @@
 			</DropdownMenu.Root>
 		</div>
 	</div>
-</main>
+</div>

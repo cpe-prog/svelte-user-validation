@@ -25,15 +25,10 @@
 		doc.text(`Name: ${data.firstName + ' ' + data.lastName}`, 10, 20);
 		doc.text(`Age: ${data.age}`, 10, 30);
 		doc.text(`Status: ${data.status}`, 10, 40);
-		doc.text(data.status, 10, 50);
 
-		const blob = doc.output('blob');
-		const downloadLink = document.createElement('a');
-		downloadLink.href = URL.createObjectURL(blob);
-		downloadLink.download = 'information.pdf';
-		downloadLink.click();
-
-		URL.revokeObjectURL(downloadLink.href);
+		const blobPDF = new Blob([doc.output('blob')], { type: 'application/pdf' });
+		const blobUrl = URL.createObjectURL(blobPDF);
+		window.open(blobUrl, '_blank');
 	}
 </script>
 
@@ -45,5 +40,5 @@
 	<Button on:click={generatePDF}>Download PDF</Button>
 {:else}
 	<Loader class="animate-spin" />
-	<p>Generating data...</p>
+	<p>Loading data...</p>
 {/if}
