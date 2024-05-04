@@ -44,6 +44,9 @@
   "dependencies": {
     "@libsql/client": "^0.6.0",
     "@lucia-auth/adapter-drizzle": "^1.0.7",
+    "@pdfme/common": "^4.0.1",
+    "@pdfme/generator": "^4.0.1",
+    "@pdfme/ui": "^4.0.1",
     "arctic": "^1.7.0",
     "argon2": "^0.40.1",
     "bcrypt": "^5.1.1",

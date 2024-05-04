@@ -1,10 +1,9 @@
 <script lang="ts">
-	import Header from '$lib/components/header.svelte';
 </script>
 
 <div>
 	<header>
-		<Header />
+		<!-- <Header /> -->
 	</header>
 	<main>
 		<slot />
