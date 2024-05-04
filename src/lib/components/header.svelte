@@ -8,7 +8,7 @@
 </script>
 
 <main class="fixed w-full shadow-white drop-shadow-md backdrop-blur-md">
-	<div class="flex items-center justify-between p-2 pl-5 pr-5">
+	<div class=" flex items-center justify-between p-2 pl-5 pr-5">
 		<nav class="flex items-center gap-5 font-semibold">
 			<a href="/" class="flex items-center">
 				<svg
@@ -55,7 +55,7 @@
 				<label class="font-semibold text-slate-500" for="logo">SvelteUI</label>
 			</a>
 
-			<ul class="flex gap-5">
+			<!-- <ul class="flex gap-5">
 				<li>
 					<a href="/">Docs</a>
 				</li>
@@ -65,7 +65,7 @@
 				<li>
 					<a href="/">About</a>
 				</li>
-			</ul>
+			</ul> -->
 		</nav>
 
 		<div class=" flex gap-8">

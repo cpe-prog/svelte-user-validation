@@ -5,7 +5,7 @@
 	import jsPDF from 'jspdf';
 	import { onMount } from 'svelte';
 
-	let data: { id: number; firstName: string; lastName: string; age: number; status: string };
+	let data: { firstName: string; lastName: string; age: number; status: string };
 
 	onMount(async () => {
 		try {
@@ -22,15 +22,15 @@
 	function generatePDF() {
 		const doc = new jsPDF();
 
-		doc.text(`Title: ${data.firstName}`, 10, 20);
-		doc.text(`Date: ${data.lastName}`, 10, 30);
-		doc.text(`Content:`, 10, 40);
+		doc.text(`Name: ${data.firstName + ' ' + data.lastName}`, 10, 20);
+		doc.text(`Age: ${data.age}`, 10, 30);
+		doc.text(`Status: ${data.status}`, 10, 40);
 		doc.text(data.status, 10, 50);
 
 		const blob = doc.output('blob');
 		const downloadLink = document.createElement('a');
 		downloadLink.href = URL.createObjectURL(blob);
-		downloadLink.download = 'report.pdf';
+		downloadLink.download = 'information.pdf';
 		downloadLink.click();
 
 		URL.revokeObjectURL(downloadLink.href);
@@ -38,9 +38,9 @@
 </script>
 
 {#if data}
-	<h1>Report: {data.firstName}</h1>
-	<p>Date: {data.lastName}</p>
-	<p>{data.status}</p>
+	<h1>Name: {data.firstName + ' ' + data.lastName}</h1>
+	<p>Age: {data.age}</p>
+	<p>Status: {data.status}</p>
 
 	<Button on:click={generatePDF}>Download PDF</Button>
 {:else}
