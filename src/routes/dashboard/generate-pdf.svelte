@@ -1,11 +1,40 @@
 <script lang="ts">
 	import Button from '$lib/components/ui/button/button.svelte';
-	import jsPDF from 'jspdf';
-	import autoTable from 'jspdf-autotable';
+	// import jsPDF from 'jspdf';
+	// import autoTable from 'jspdf-autotable';
 	import { Loader } from 'lucide-svelte';
 	import { onMount } from 'svelte';
+	// import { Designer } from '@pdfme/ui';
+	import { BLANK_PDF, type Template } from '@pdfme/common';
+	// import { generate } from '@pdfme/generator';
 
 	let data: { firstName: string; lastName: string; age: number; status: string };
+
+	const template: Template = {
+		basePdf: BLANK_PDF,
+		schemas: [
+			{
+				a: {
+					type: 'text',
+					position: { x: 0, y: 0 },
+					width: 10,
+					height: 10
+				},
+				b: {
+					type: 'text',
+					position: { x: 10, y: 10 },
+					width: 10,
+					height: 10
+				},
+				c: {
+					type: 'text',
+					position: { x: 20, y: 20 },
+					width: 10,
+					height: 10
+				}
+			}
+		]
+	};
 
 	onMount(async () => {
 		try {
@@ -19,15 +48,16 @@
 		}
 	});
 	function generatePDF() {
-		const doc = new jsPDF();
-		autoTable(doc, {
-			styles: { fillColor: [0, 0, 0] },
-			head: [['Name', 'age', 'status']],
-			body: [[`${data.firstName + ' ' + data.lastName}`, `${data.age}`, `${data.status}`]]
-		});
-		const blobPDF = new Blob([doc.output('blob')], { type: 'application/pdf' });
-		const blobUrl = URL.createObjectURL(blobPDF);
-		window.open(blobUrl, '_blank');
+		template;
+		// const doc = new jsPDF();
+		// autoTable(doc, {
+		// 	styles: { fillColor: [0, 0, 0] },
+		// 	head: [['Name', 'age', 'status']],
+		// 	body: [[`${data.firstName + ' ' + data.lastName}`, `${data.age}`, `${data.status}`]]
+		// });
+		// const blobPDF = new Blob([doc.output('blob')], { type: 'application/pdf' });
+		// const blobUrl = URL.createObjectURL(blobPDF);
+		// window.open(blobUrl, '_blank');
 	}
 </script>
 
