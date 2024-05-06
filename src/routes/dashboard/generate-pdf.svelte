@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { Loader } from 'lucide-svelte';
-
 	import Button from '$lib/components/ui/button/button.svelte';
 	import jsPDF from 'jspdf';
+	import autoTable from 'jspdf-autotable';
+	import { Loader } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 
 	let data: { firstName: string; lastName: string; age: number; status: string };
@@ -18,12 +18,13 @@
 			console.error('Error fetching data:', err);
 		}
 	});
-
 	function generatePDF() {
 		const doc = new jsPDF();
-		doc.text(`Name: ${data.firstName + ' ' + data.lastName}`, 10, 20);
-		doc.text(`Age: ${data.age}`, 10, 30);
-		doc.text(`Status: ${data.status}`, 10, 40);
+		autoTable(doc, {
+			styles: { fillColor: [0, 0, 0] },
+			head: [['Name', 'age', 'status']],
+			body: [[`${data.firstName + ' ' + data.lastName}`, `${data.age}`, `${data.status}`]]
+		});
 		const blobPDF = new Blob([doc.output('blob')], { type: 'application/pdf' });
 		const blobUrl = URL.createObjectURL(blobPDF);
 		window.open(blobUrl, '_blank');
