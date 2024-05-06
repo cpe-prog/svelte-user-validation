@@ -3,6 +3,11 @@
 </script>
 
 <div>
-	<Navbar />
-	<slot />
+	<header>
+		<Navbar />
+	</header>
+	<main>
+		<slot />
+	</main>
+	<footer></footer>
 </div>
