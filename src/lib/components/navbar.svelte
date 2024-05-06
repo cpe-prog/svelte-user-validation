@@ -4,14 +4,10 @@
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
 	import { MoonStar, Sun } from 'lucide-svelte';
 	import { toggleMode } from 'mode-watcher';
-	import Humburger from './humburger.svelte';
 	import Button from './ui/button/button.svelte';
-
-	export let sidebar = false;
-	// export let open = false;
 </script>
 
-<nav class=" w-full shadow-white drop-shadow-md backdrop-blur-md">
+<nav class="fixed h-full w-56 shadow-white drop-shadow-md backdrop-blur-md">
 	<div class=" flex items-center justify-between p-2 pl-5 pr-5">
 		<nav class="flex items-center gap-5 font-semibold">
 			<a href="/" class="flex items-center">
@@ -59,7 +55,7 @@
 				<label class="font-semibold text-slate-500" for="logo">SvelteUI</label>
 			</a>
 
-			<ul class="flex gap-5">
+			<!-- <ul class="flex gap-5">
 				<li>
 					<a href="/">Docs</a>
 				</li>
@@ -69,8 +65,7 @@
 				<li>
 					<a href="/">About</a>
 				</li>
-			</ul>
-			<Humburger bind:open={sidebar} />
+			</ul> -->
 		</nav>
 		<div class=" flex gap-8">
 			<Button on:click={toggleMode} variant="ghost" size="icon">
