@@ -9,8 +9,10 @@
 	import { paperFormats, paperOrientation } from './selection-details';
 
 	let data: { firstName: string; lastName: string; age: number; status: string };
-	let selectedFormat = paperFormats;
-	let selectedOrientation = paperOrientation;
+	let isOpen: boolean = false;
+
+	let selectedFormat;
+	let selectedOrientation;
 
 	onMount(async () => {
 		try {
@@ -26,14 +28,16 @@
 
 	function generatePDF() {
 		const doc = new jsPDF({
-			orientation: 'portrait',
+			orientation: 'landscape',
 			unit: 'mm',
-			format: 'a4'
+			format: 'leter'
 		});
 		doc.text('Hello world!', 0, 10);
 		doc.setFontSize(20);
 		doc.text('User Data', 10, 20);
 		doc.setFontSize(12);
+
+		const data = { firstName: 'John', lastName: 'Doe', age: 30, status: 'Active' };
 
 		autoTable(doc, {
 			theme: 'striped',
@@ -43,14 +47,13 @@
 			},
 			tableWidth: 100,
 			margin: { top: 30, left: 30 },
-			head: [['Name', 'age', 'status']],
-			body: [[`${data.firstName + ' ' + data.lastName}`, `${data.age}`, `${data.status}`]]
+			head: [['Name', 'Age', 'Status']],
+			body: [[`${data.firstName} ${data.lastName}`, `${data.age}`, `${data.status}`]]
 		});
-		const blobPDF = new Blob([doc.output('blob')], { type: 'application/pdf' });
-		const blobUrl = URL.createObjectURL(blobPDF);
-		window.open(blobUrl, '_blank');
 
-		Dialog.Close;
+		const blobPDF = new Blob([doc.output('blob')], { type: 'application/pdf' });
+		const url = URL.createObjectURL(blobPDF);
+		window.open(url, '_blank');
 	}
 </script>
 
@@ -70,13 +73,18 @@
 			<div class="grid gap-4 py-4">
 				<div class="grid grid-cols-4 items-center gap-4">
 					<Label class="text-right">Paper Size</Label>
-					<Select.Root>
+					<Select.Root
+						onSelectedChange={(e) => {
+							selectedFormat = e?.value;
+							console.log(selectedFormat);
+						}}
+					>
 						<Select.Trigger class="w-[180px]">
 							<Select.Value placeholder="Select Size" />
 						</Select.Trigger>
 						<Select.Content>
 							<Select.Group>
-								{#each selectedFormat as format}
+								{#each paperFormats as format}
 									<Select.Item value={format.value} label={format.label}>{format.label}</Select.Item
 									>
 								{/each}
@@ -86,13 +94,18 @@
 				</div>
 				<div class="grid grid-cols-4 items-center gap-4">
 					<Label class="text-right">Layout</Label>
-					<Select.Root>
+					<Select.Root
+						onSelectedChange={(e) => {
+							selectedOrientation = e?.value;
+							console.log(selectedOrientation);
+						}}
+					>
 						<Select.Trigger class="w-[180px]">
 							<Select.Value placeholder="Select Layout" />
 						</Select.Trigger>
 						<Select.Content>
 							<Select.Group>
-								{#each selectedOrientation as orientation}
+								{#each paperOrientation as orientation}
 									<Select.Item value={orientation.value} label={orientation.label}
 										>{orientation.label}</Select.Item
 									>

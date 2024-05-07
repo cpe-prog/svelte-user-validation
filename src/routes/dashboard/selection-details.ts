@@ -13,11 +13,11 @@ export const paperFormats = [
 
 export const paperOrientation = [
 	{
-		value: 'Portrait',
+		value: 'portrait',
 		label: 'Portrait'
 	},
 	{
-		value: 'Landscape',
+		value: 'landscape',
 		label: 'Landscape'
 	}
 ];
