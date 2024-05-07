@@ -2,6 +2,7 @@
   "name": "inventory",
   "version": "0.0.1",
   "private": true,
+  "types": "module",
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
@@ -49,7 +50,7 @@
     "arctic": "^1.7.0",
     "argon2": "^0.40.1",
     "bcrypt": "^5.1.1",
-    "bits-ui": "^0.21.5",
+    "bits-ui": "^0.21.7",
     "clsx": "^2.1.1",
     "dotenv": "^16.4.5",
     "drizzle-orm": "^0.30.9",
