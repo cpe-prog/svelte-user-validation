@@ -19,7 +19,7 @@
 	});
 
 	function generatePDF() {
-		const doc = new jsPDF();
+		const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'letter' });
 		doc.text('Hello world!', 0, 10);
 		doc.setFontSize(20);
 		doc.text('User Data', 10, 20);
