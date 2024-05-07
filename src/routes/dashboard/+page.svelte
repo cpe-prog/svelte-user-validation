@@ -9,10 +9,9 @@
 	import { paperFormats, paperOrientation } from './selection-details';
 
 	let data: { firstName: string; lastName: string; age: number; status: string };
-	let isOpen: boolean = false;
 
-	let selectedFormat;
-	let selectedOrientation;
+	let selectedFormat: unknown;
+	let selectedOrientation: unknown;
 
 	onMount(async () => {
 		try {
@@ -27,17 +26,13 @@
 	});
 
 	function generatePDF() {
+		const orientation = selectedOrientation;
+		const format = selectedFormat;
 		const doc = new jsPDF({
-			orientation: 'landscape',
+			orientation: orientation,
 			unit: 'mm',
-			format: 'leter'
+			format: format
 		});
-		doc.text('Hello world!', 0, 10);
-		doc.setFontSize(20);
-		doc.text('User Data', 10, 20);
-		doc.setFontSize(12);
-
-		const data = { firstName: 'John', lastName: 'Doe', age: 30, status: 'Active' };
 
 		autoTable(doc, {
 			theme: 'striped',
@@ -63,7 +58,7 @@
 
 <main class="flex h-screen w-full items-center justify-center gap-5">
 	<Dialog.Root>
-		<Dialog.Trigger class={buttonVariants({ variant: 'secondary' })}>Generate Pdf</Dialog.Trigger>
+		<Dialog.Trigger class={buttonVariants({ variant: 'secondary' })}>Generate PDF</Dialog.Trigger>
 		<Dialog.Content class="sm:max-w-[300px]">
 			<Dialog.Header>
 				<div class="flex justify-center">
