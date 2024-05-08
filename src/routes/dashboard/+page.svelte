@@ -10,8 +10,8 @@
 
 	let data: { firstName: string; lastName: string; age: number; status: string };
 
-	let selectedFormat: unknown;
-	let selectedOrientation: unknown;
+	let selectedFormat: any;
+	let selectedOrientation: any;
 
 	onMount(async () => {
 		try {
@@ -27,11 +27,13 @@
 
 	function generatePDF() {
 		const orientation = selectedOrientation;
-		const format = selectedFormat;
+		if (orientation === 'portrait') {
+			selectedFormat = paperFormats.find((format) => format.value === 'a4');
+		}
 		const doc = new jsPDF({
 			orientation: orientation,
 			unit: 'mm',
-			format: format
+			format: selectedFormat
 		});
 
 		autoTable(doc, {
@@ -56,7 +58,7 @@
 	<title>Dashboard</title>
 </svelte:head>
 
-<main class="flex h-screen w-full items-center justify-center gap-5">
+<main class="flex h-screen w-full items-center justify-center gap-5 p-10">
 	<Dialog.Root>
 		<Dialog.Trigger class={buttonVariants({ variant: 'secondary' })}>Generate PDF</Dialog.Trigger>
 		<Dialog.Content class="sm:max-w-[300px]">
@@ -65,16 +67,15 @@
 					<h1>Select format</h1>
 				</div>
 			</Dialog.Header>
-			<div class="grid gap-4 py-4">
-				<div class="grid grid-cols-4 items-center gap-4">
-					<Label class="text-right">Paper Size</Label>
+			<div class="grid grid-cols-1 gap-4 py-2">
+				<div class="flex items-center gap-2 text-right">
+					<Label class="w-24">Page Size:</Label>
 					<Select.Root
 						onSelectedChange={(e) => {
 							selectedFormat = e?.value;
-							console.log(selectedFormat);
 						}}
 					>
-						<Select.Trigger class="w-[180px]">
+						<Select.Trigger>
 							<Select.Value placeholder="Select Size" />
 						</Select.Trigger>
 						<Select.Content>
@@ -87,15 +88,14 @@
 						</Select.Content>
 					</Select.Root>
 				</div>
-				<div class="grid grid-cols-4 items-center gap-4">
-					<Label class="text-right">Layout</Label>
+				<div class="flex items-center gap-2 text-right">
+					<Label class="w-24">Layout:</Label>
 					<Select.Root
 						onSelectedChange={(e) => {
 							selectedOrientation = e?.value;
-							console.log(selectedOrientation);
 						}}
 					>
-						<Select.Trigger class="w-[180px]">
+						<Select.Trigger>
 							<Select.Value placeholder="Select Layout" />
 						</Select.Trigger>
 						<Select.Content>
@@ -108,6 +108,47 @@
 							</Select.Group>
 						</Select.Content>
 					</Select.Root>
+				</div>
+				<div class="flex items-center gap-2 text-right">
+					<Label class="w-24">Margin:</Label>
+					<div class="flex w-fit gap-2">
+						<Select.Root
+							onSelectedChange={(e) => {
+								selectedOrientation = e?.value;
+							}}
+						>
+							<Select.Trigger>
+								<Select.Value placeholder="Left" />
+							</Select.Trigger>
+							<Select.Content>
+								<Select.Group>
+									{#each paperOrientation as orientation}
+										<Select.Item value={orientation.value} label={orientation.label}
+											>{orientation.label}</Select.Item
+										>
+									{/each}
+								</Select.Group>
+							</Select.Content>
+						</Select.Root>
+						<Select.Root
+							onSelectedChange={(e) => {
+								selectedOrientation = e?.value;
+							}}
+						>
+							<Select.Trigger>
+								<Select.Value placeholder="Right" />
+							</Select.Trigger>
+							<Select.Content>
+								<Select.Group>
+									{#each paperOrientation as orientation}
+										<Select.Item value={orientation.value} label={orientation.label}
+											>{orientation.label}</Select.Item
+										>
+									{/each}
+								</Select.Group>
+							</Select.Content>
+						</Select.Root>
+					</div>
 				</div>
 			</div>
 			<Dialog.Footer>

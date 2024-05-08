@@ -21,3 +21,49 @@ export const paperOrientation = [
 		label: 'Landscape'
 	}
 ];
+
+export const leftMargin = [
+	{
+		value: '0',
+		label: '0'
+	},
+	{
+		value: '0.5',
+		label: '0.5'
+	},
+	{
+		value: '1',
+		label: '1'
+	},
+	{
+		value: '1.5',
+		label: '1.5'
+	},
+	{
+		value: '2',
+		label: '2'
+	}
+];
+
+export const rightMargin = [
+	{
+		value: '0',
+		label: '0'
+	},
+	{
+		value: '0.5',
+		label: '0.5'
+	},
+	{
+		value: '1',
+		label: '1'
+	},
+	{
+		value: '1.5',
+		label: '1.5'
+	},
+	{
+		value: '2',
+		label: '2'
+	}
+];
