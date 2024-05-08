@@ -27,16 +27,12 @@
 		}
 	});
 
-	function generatePDF() {
+	async function generatePDF() {
 		const orientation = selectedOrientation;
 		const pageSize = selectedFormat;
 		let doc = new jsPDF(orientation, 'in', pageSize);
-		doc.setDrawColor('black');
-		doc.setLineWidth(1 / 72);
-		doc.line(0.5, 0.5, 0.5, 10);
-		doc.setFontSize(12);
-		doc.setFillColor('black');
-		doc.text('Hello World', 10, 10);
+		doc.text('Hello', 0.5, 0.5);
+
 		autoTable(doc, {
 			theme: 'striped',
 			styles: {
@@ -139,7 +135,6 @@
 						<Select.Root
 							onSelectedChange={(e) => {
 								selectedRightMargin = e?.value;
-								console.log(selectedRightMargin);
 							}}
 						>
 							<Select.Trigger>
