@@ -29,14 +29,8 @@
 
 	function generatePDF() {
 		const orientation = selectedOrientation;
-		if (orientation === 'portrait') {
-			selectedFormat = paperFormats.find((format) => format.value === 'a4');
-		}
-		const doc = new jsPDF({
-			orientation: orientation,
-			unit: 'mm',
-			format: selectedFormat
-		});
+		const pageSize = selectedFormat;
+		let doc = new jsPDF(orientation, 'mm', pageSize);
 
 		autoTable(doc, {
 			theme: 'striped',
@@ -121,7 +115,7 @@
 						<Label class="w-28">Left:</Label>
 						<Select.Root
 							onSelectedChange={(e) => {
-								selectedOrientation = e?.value;
+								selectedLeftMargin = e?.value;
 							}}
 						>
 							<Select.Trigger>
@@ -140,7 +134,8 @@
 						<Label class="w-32">Right:</Label>
 						<Select.Root
 							onSelectedChange={(e) => {
-								selectedOrientation = e?.value;
+								selectedRightMargin = e?.value;
+								console.log(selectedRightMargin);
 							}}
 						>
 							<Select.Trigger>
