@@ -30,20 +30,24 @@
 	function generatePDF() {
 		const orientation = selectedOrientation;
 		const pageSize = selectedFormat;
-		let doc = new jsPDF(orientation, 'mm', pageSize);
-
+		let doc = new jsPDF(orientation, 'in', pageSize);
+		doc.setDrawColor('black');
+		doc.setLineWidth(1 / 72);
+		doc.line(0.5, 0.5, 0.5, 10);
+		doc.setFontSize(12);
+		doc.setFillColor('black');
+		doc.text('Hello World', 10, 10);
 		autoTable(doc, {
 			theme: 'striped',
 			styles: {
 				font: 'helvetica',
 				lineColor: [0, 0, 0]
 			},
-			tableWidth: 100,
-			margin: { top: 30, left: 30 },
-			head: [['Name', 'Age', 'Status']],
-			body: [[`${data.firstName} ${data.lastName}`, `${data.age}`, `${data.status}`]]
+			head: [['Name', 'Age', 'Status', 'Sample', 'Sample']],
+			body: [
+				[`${data.firstName} ${data.lastName}`, `${data.age}`, `${data.status}`, 'Sample', 'Sample']
+			]
 		});
-
 		const blobPDF = new Blob([doc.output('blob')], { type: 'application/pdf' });
 		const url = URL.createObjectURL(blobPDF);
 		window.open(url, '_blank');
