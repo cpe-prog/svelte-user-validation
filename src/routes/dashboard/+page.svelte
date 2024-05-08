@@ -6,12 +6,14 @@
 	import jsPDF from 'jspdf';
 	import autoTable from 'jspdf-autotable';
 	import { onMount } from 'svelte';
-	import { paperFormats, paperOrientation } from './selection-details';
+	import { leftMargin, paperFormats, paperOrientation, rightMargin } from './selection-details';
 
 	let data: { firstName: string; lastName: string; age: number; status: string };
 
 	let selectedFormat: any;
 	let selectedOrientation: any;
+	let selectedLeftMargin: any;
+	let selectedRightMargin: any;
 
 	onMount(async () => {
 		try {
@@ -64,7 +66,7 @@
 		<Dialog.Content class="sm:max-w-[300px]">
 			<Dialog.Header>
 				<div class="flex justify-center">
-					<h1>Select format</h1>
+					<h1 class="font-bold">Select format</h1>
 				</div>
 			</Dialog.Header>
 			<div class="grid grid-cols-1 gap-4 py-2">
@@ -109,9 +111,14 @@
 						</Select.Content>
 					</Select.Root>
 				</div>
-				<div class="flex items-center gap-2 text-right">
-					<Label class="w-24">Margin:</Label>
-					<div class="flex w-fit gap-2">
+			</div>
+			<div class="grid grid-cols-1 gap-4 py-2">
+				<div class="flex justify-center">
+					<h1 class="font-bold">Margin</h1>
+				</div>
+				<div class="grid grid-cols-2 items-center gap-2 text-right">
+					<div class="flex items-center gap-2">
+						<Label class="w-28">Left:</Label>
 						<Select.Root
 							onSelectedChange={(e) => {
 								selectedOrientation = e?.value;
@@ -122,14 +129,15 @@
 							</Select.Trigger>
 							<Select.Content>
 								<Select.Group>
-									{#each paperOrientation as orientation}
-										<Select.Item value={orientation.value} label={orientation.label}
-											>{orientation.label}</Select.Item
-										>
+									{#each leftMargin as leftX}
+										<Select.Item value={leftX.value} label={leftX.label}>{leftX.label}</Select.Item>
 									{/each}
 								</Select.Group>
 							</Select.Content>
 						</Select.Root>
+					</div>
+					<div class="flex items-center gap-2">
+						<Label class="w-32">Right:</Label>
 						<Select.Root
 							onSelectedChange={(e) => {
 								selectedOrientation = e?.value;
@@ -140,9 +148,9 @@
 							</Select.Trigger>
 							<Select.Content>
 								<Select.Group>
-									{#each paperOrientation as orientation}
-										<Select.Item value={orientation.value} label={orientation.label}
-											>{orientation.label}</Select.Item
+									{#each rightMargin as rightX}
+										<Select.Item value={rightX.value} label={rightX.label}
+											>{rightX.label}</Select.Item
 										>
 									{/each}
 								</Select.Group>
@@ -152,7 +160,7 @@
 				</div>
 			</div>
 			<Dialog.Footer>
-				<Button on:click={generatePDF}>Print</Button>
+				<Button size="sm" on:click={generatePDF}>Print</Button>
 			</Dialog.Footer>
 		</Dialog.Content>
 	</Dialog.Root>
