@@ -3,7 +3,7 @@
 	import * as Dialog from '$lib/components/ui/dialog/index.js';
 	import { Label } from '$lib/components/ui/label/index.js';
 	import * as Select from '$lib/components/ui/select/index.js';
-	import { jsPDF } from 'jspdf';
+	import jsPDF from 'jspdf';
 	import autoTable from 'jspdf-autotable';
 	import { onMount } from 'svelte';
 	import { leftMargin, paperFormats, paperOrientation, rightMargin } from './selection-details';
@@ -31,7 +31,6 @@
 		const orientation = selectedOrientation;
 		const pageSize = selectedFormat;
 		let doc = new jsPDF(orientation, 'in', pageSize);
-
 		autoTable(doc, {
 			theme: 'striped',
 			styles: {
