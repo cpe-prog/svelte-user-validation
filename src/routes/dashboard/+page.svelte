@@ -3,7 +3,7 @@
 	import * as Dialog from '$lib/components/ui/dialog/index.js';
 	import { Label } from '$lib/components/ui/label/index.js';
 	import * as Select from '$lib/components/ui/select/index.js';
-	import { toast } from 'svelte-sonner';
+	import { Toaster, toast } from 'svelte-sonner';
 	import { margins, paperFormats, paperOrientation } from './selection-details';
 
 	let selectedFormat: any;
@@ -17,7 +17,7 @@
 			);
 			console.log('has result');
 			if (!res.ok) {
-				toast.error('Invalid url');
+				toast.info('Please complete page settings');
 				return;
 			}
 
@@ -33,31 +33,23 @@
 			console.log('error url');
 		}
 	}
-
-	async function sample() {
-		await fetch(
-			`/api/sample/?pageSize=${selectedFormat}&&orientation=${selectedOrientation}&&margin=${selectedMargin}`
-		);
-	}
 </script>
 
 <svelte:head>
 	<title>Dashboard</title>
 </svelte:head>
 
-<main class="flex h-screen w-full items-center justify-center gap-5 p-10">
+<main class="flex h-screen w-full items-center justify-center gap-5 p-14">
+	<Toaster richColors />
 	<Dialog.Root>
 		<Dialog.Trigger class={buttonVariants({ variant: 'secondary' })}>Generate PDF</Dialog.Trigger>
 		<Dialog.Content class="sm:max-w-[300px]">
 			<Dialog.Header>
-				<div class="flex justify-center">
-					<h1 class="font-bold">Select format</h1>
-					<p></p>
-				</div>
+				<h1 class="font-bold">Page Settings</h1>
 			</Dialog.Header>
-			<div class="grid grid-cols-1 gap-4 py-2">
-				<div class="flex items-center gap-2 text-right">
-					<Label class="w-24">Page Size:</Label>
+			<div class="py-2">
+				<div class="mb-3">
+					<Label class="w-24">Page Size</Label>
 					<Select.Root
 						onSelectedChange={(e) => {
 							selectedFormat = e?.value;
@@ -76,8 +68,8 @@
 						</Select.Content>
 					</Select.Root>
 				</div>
-				<div class="flex items-center gap-2 text-right">
-					<Label class="w-24">Layout:</Label>
+				<div class="mb-3">
+					<Label class="w-24">Paper Orientation</Label>
 					<Select.Root
 						onSelectedChange={(e) => {
 							selectedOrientation = e?.value;
@@ -97,8 +89,8 @@
 						</Select.Content>
 					</Select.Root>
 				</div>
-				<div class="flex items-center gap-2 text-right">
-					<Label class="w-24">Margin:</Label>
+				<div class="mb-3">
+					<Label class="w-24">Margin</Label>
 					<Select.Root
 						onSelectedChange={(e) => {
 							selectedMargin = e?.value;
@@ -125,6 +117,4 @@
 			</Dialog.Footer>
 		</Dialog.Content>
 	</Dialog.Root>
-
-	<Button on:click={sample}>Sample</Button>
 </main>

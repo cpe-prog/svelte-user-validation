@@ -6,7 +6,7 @@ import type { PageSettings } from '../../../../ambient';
 function generate(settings: PageSettings): TDocumentDefinitions {
 	return {
 		pageMargins: settings.margins,
-		pageSize: settings.size,
+		pageSize: { width: settings.width, height: settings.height },
 		pageOrientation: settings.orientation,
 		content: [
 			{ text: 'Tables', style: 'header' },

@@ -8,6 +8,7 @@ export const GET = (async ({ setHeaders, url }) => {
 		orientation: url.searchParams.get('orientation'),
 		margins: Number(url.searchParams.get('margin'))
 	});
+
 	const pdf = await printPdf(content);
 
 	setHeaders({

@@ -1,10 +1,8 @@
 export const paperFormats = [
-	{ value: 'Letter', label: 'Letter' },
-	{ value: 'Tabloid', label: 'Tabloid' },
-	{ value: 'Legal', label: 'Legal' },
-	{ value: 'A3', label: 'A3' },
-	{ value: 'A4', label: 'A4' },
-	{ value: 'A5', label: 'A5' }
+	{ width: 612, height: 792, label: 'Letter (8.5" x 11")' },
+	{ width: 612, height: 936, label: 'Long (8.5" x 13")' },
+	{ width: 595.44, height: 812.88, label: 'A4 (8.27" x 11.29")' },
+	{ value: 'custom', label: 'Custom' }
 ];
 
 export const paperOrientation = [
@@ -20,20 +18,24 @@ export const paperOrientation = [
 
 export const margins = [
 	{
-		value: 10,
-		label: 10
+		value: 72,
+		label: 'Default'
 	},
 
 	{
-		value: 20,
-		label: 20
+		value: 144,
+		label: 'Wide'
 	},
 	{
-		value: 30,
-		label: 30
+		value: 36,
+		label: 'Narrow'
 	},
 	{
-		value: 40,
-		label: 40
+		value: 18,
+		label: 'Thin'
+	},
+	{
+		value: 3.6,
+		label: 'None'
 	}
 ];

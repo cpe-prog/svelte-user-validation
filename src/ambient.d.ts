@@ -3,3 +3,10 @@ type UserInfo = {
 	lastName: string;
 	email: string;
 };
+
+type PageSettings = {
+	margins: Margins;
+	width: PredefinedPageSize;
+	height: PredefinedPageSize;
+	orientation: 'portrait' | 'landscape';
+};
