@@ -4,16 +4,20 @@ import { type RequestHandler } from '@sveltejs/kit';
 
 export const GET = (async ({ setHeaders, url }) => {
 	const content = generate({
-		size: url.searchParams.get('pageSize'),
+		width: Number(url.searchParams.get('pageWidth')),
+		height: Number(url.searchParams.get('pageHeigth')),
 		orientation: url.searchParams.get('orientation'),
 		margins: Number(url.searchParams.get('margin'))
 	});
+
+	console.log(Number(url.searchParams.get('pageWidth')));
+	console.log(Number(url.searchParams.get('pageHeight')));
 
 	const pdf = await printPdf(content);
 
 	setHeaders({
 		'Content-Type': 'application/pdf',
-		'Content-Length': pdf.size.toString(),
+		'Content-Width': pdf.size.toString(),
 		'Last-Modified': new Date().toUTCString()
 	});
 

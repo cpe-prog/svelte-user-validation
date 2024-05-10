@@ -6,14 +6,15 @@
 	import { Toaster, toast } from 'svelte-sonner';
 	import { margins, paperFormats, paperOrientation } from './selection-details';
 
-	let selectedFormat: any;
+	let selectedWidth: any;
+	let selectedHeight: any;
 	let selectedOrientation: any;
 	let selectedMargin: any;
 
 	async function generatePDF() {
 		try {
 			var res = await fetch(
-				`/api/pdf/627bc49f-0f30-4f82-b443-21479ca87a11/?pageSize=${selectedFormat}&&orientation=${selectedOrientation}&&margin=${selectedMargin}`
+				`/api/pdf/627bc49f-0f30-4f82-b443-21479ca87a11/?pageWidth=${selectedWidth}&&pageHeight=${selectedHeight}&&orientation=${selectedOrientation}&&margin=${selectedMargin}`
 			);
 			console.log('has result');
 			if (!res.ok) {
@@ -52,7 +53,9 @@
 					<Label class="w-24">Page Size</Label>
 					<Select.Root
 						onSelectedChange={(e) => {
-							selectedFormat = e?.value;
+							selectedWidth = e?.value?.width;
+							selectedHeight = e?.value?.height;
+							console.log(selectedWidth, selectedHeight);
 						}}
 					>
 						<Select.Trigger>
