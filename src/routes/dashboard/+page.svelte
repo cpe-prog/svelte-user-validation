@@ -4,16 +4,17 @@
 	import { Label } from '$lib/components/ui/label/index.js';
 	import * as Select from '$lib/components/ui/select/index.js';
 	import { toast } from 'svelte-sonner';
-	import { leftMargin, paperFormats, paperOrientation, rightMargin } from './selection-details';
+	import { margins, paperFormats, paperOrientation } from './selection-details';
 
 	let selectedFormat: any;
 	let selectedOrientation: any;
-	let selectedLeftMargin: any;
-	let selectedRightMargin: any;
+	let selectedMargin: any;
 
 	async function generatePDF() {
 		try {
-			var res = await fetch('/api/pdf/fda58994a40541068772bd5c495d7f3cs');
+			var res = await fetch(
+				`/api/pdf/627bc49f-0f30-4f82-b443-21479ca87a11/?pageSize=${selectedFormat}&&orientation=${selectedOrientation}&&margin=${selectedMargin}`
+			);
 			console.log('has result');
 			if (!res.ok) {
 				toast.error('Invalid url');
@@ -31,6 +32,12 @@
 		} catch (error) {
 			console.log('error url');
 		}
+	}
+
+	async function sample() {
+		await fetch(
+			`/api/sample/?pageSize=${selectedFormat}&&orientation=${selectedOrientation}&&margin=${selectedMargin}`
+		);
 	}
 </script>
 
@@ -90,57 +97,34 @@
 						</Select.Content>
 					</Select.Root>
 				</div>
-			</div>
-			<div class="grid grid-cols-1 gap-4 py-2">
-				<div class="flex justify-center">
-					<h1 class="font-bold">Margin</h1>
-				</div>
-				<div class="grid grid-cols-2 items-center gap-2 text-right">
-					<div class="flex items-center gap-2">
-						<Label class="w-28">Left:</Label>
-						<Select.Root
-							onSelectedChange={(e) => {
-								selectedLeftMargin = e?.value;
-							}}
-						>
-							<Select.Trigger>
-								<Select.Value placeholder="Left" />
-							</Select.Trigger>
-							<Select.Content>
-								<Select.Group>
-									{#each leftMargin as leftX}
-										<Select.Item value={leftX.value} label={leftX.label}>{leftX.label}</Select.Item>
-									{/each}
-								</Select.Group>
-							</Select.Content>
-						</Select.Root>
-					</div>
-					<div class="flex items-center gap-2">
-						<Label class="w-32">Right:</Label>
-						<Select.Root
-							onSelectedChange={(e) => {
-								selectedRightMargin = e?.value;
-							}}
-						>
-							<Select.Trigger>
-								<Select.Value placeholder="Right" />
-							</Select.Trigger>
-							<Select.Content>
-								<Select.Group>
-									{#each rightMargin as rightX}
-										<Select.Item value={rightX.value} label={rightX.label}
-											>{rightX.label}</Select.Item
-										>
-									{/each}
-								</Select.Group>
-							</Select.Content>
-						</Select.Root>
-					</div>
+				<div class="flex items-center gap-2 text-right">
+					<Label class="w-24">Margin:</Label>
+					<Select.Root
+						onSelectedChange={(e) => {
+							selectedMargin = e?.value;
+						}}
+					>
+						<Select.Trigger>
+							<Select.Value placeholder="Select Margin" />
+						</Select.Trigger>
+						<Select.Content>
+							<Select.Group>
+								{#each margins as margin}
+									<Select.Item value={margin.value} label={margin.label.toString()}
+										>{margin.label}</Select.Item
+									>
+								{/each}
+							</Select.Group>
+						</Select.Content>
+					</Select.Root>
 				</div>
 			</div>
+
 			<Dialog.Footer>
 				<Button size="sm" on:click={generatePDF}>Print</Button>
 			</Dialog.Footer>
 		</Dialog.Content>
 	</Dialog.Root>
+
+	<Button on:click={sample}>Sample</Button>
 </main>

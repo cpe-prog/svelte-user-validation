@@ -18,48 +18,22 @@ export const paperOrientation = [
 	}
 ];
 
-export const leftMargin = [
+export const margins = [
 	{
-		value: '0',
-		label: '0'
+		value: 10,
+		label: 10
 	},
-	{
-		value: '0.5',
-		label: '0.5'
-	},
-	{
-		value: '1',
-		label: '1'
-	},
-	{
-		value: '1.5',
-		label: '1.5'
-	},
-	{
-		value: '2',
-		label: '2'
-	}
-];
 
-export const rightMargin = [
 	{
-		value: '0',
-		label: '0'
+		value: 20,
+		label: 20
 	},
 	{
-		value: '0.5',
-		label: '0.5'
+		value: 30,
+		label: 30
 	},
 	{
-		value: '1',
-		label: '1'
-	},
-	{
-		value: '1.5',
-		label: '1.5'
-	},
-	{
-		value: '2',
-		label: '2'
+		value: 40,
+		label: 40
 	}
 ];
