@@ -3,48 +3,34 @@
 	import * as Dialog from '$lib/components/ui/dialog/index.js';
 	import { Label } from '$lib/components/ui/label/index.js';
 	import * as Select from '$lib/components/ui/select/index.js';
-	import jsPDF from 'jspdf';
-	import autoTable from 'jspdf-autotable';
-	import { onMount } from 'svelte';
+	import { toast } from 'svelte-sonner';
 	import { leftMargin, paperFormats, paperOrientation, rightMargin } from './selection-details';
-
-	let data: { firstName: string; lastName: string; age: number; status: string };
 
 	let selectedFormat: any;
 	let selectedOrientation: any;
 	let selectedLeftMargin: any;
 	let selectedRightMargin: any;
 
-	onMount(async () => {
-		try {
-			const response = await fetch('/api/data');
-			if (!response.ok) {
-				throw new Error('Failed to fetch data');
-			}
-			data = await response.json();
-		} catch (err) {
-			console.error('Error fetching data:', err);
-		}
-	});
-
 	async function generatePDF() {
-		const orientation = selectedOrientation;
-		const pageSize = selectedFormat;
-		let doc = new jsPDF(orientation, 'in', pageSize);
-		autoTable(doc, {
-			theme: 'striped',
-			styles: {
-				font: 'helvetica',
-				lineColor: [0, 0, 0]
-			},
-			head: [['Name', 'Age', 'Status', 'Sample', 'Sample']],
-			body: [
-				[`${data.firstName} ${data.lastName}`, `${data.age}`, `${data.status}`, 'Sample', 'Sample']
-			]
-		});
-		const blobPDF = new Blob([doc.output('blob')], { type: 'application/pdf' });
-		const url = URL.createObjectURL(blobPDF);
-		window.open(url, '_blank');
+		try {
+			var res = await fetch('/api/pdf/fda58994a40541068772bd5c495d7f3cs');
+			console.log('has result');
+			if (!res.ok) {
+				toast.error('Invalid url');
+				return;
+			}
+
+			var blob = await res.blob();
+
+			if (blob.size === 0) {
+				return;
+			}
+
+			const _url = window.URL.createObjectURL(blob);
+			window.open(_url, '_blank');
+		} catch (error) {
+			console.log('error url');
+		}
 	}
 </script>
 
