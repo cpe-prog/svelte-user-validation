@@ -6,7 +6,7 @@ type UserInfo = {
 
 type PageSettings = {
 	margins: Margins;
-	width: PredefinedPageSize;
-	height: PredefinedPageSize;
+	width: Width;
+	height: Height;
 	orientation: 'portrait' | 'landscape';
 };

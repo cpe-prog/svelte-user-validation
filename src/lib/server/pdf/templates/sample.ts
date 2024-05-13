@@ -1,5 +1,4 @@
 import type { TDocumentDefinitions } from 'pdfmake/interfaces';
-import type { PageSettings } from '../../../../ambient';
 
 //create page setting interface
 

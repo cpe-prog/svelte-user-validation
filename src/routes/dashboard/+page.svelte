@@ -55,7 +55,6 @@
 						onSelectedChange={(e) => {
 							selectedWidth = e?.value?.width;
 							selectedHeight = e?.value?.height;
-							console.log(selectedWidth, selectedHeight);
 						}}
 					>
 						<Select.Trigger>
@@ -92,7 +91,7 @@
 						</Select.Content>
 					</Select.Root>
 				</div>
-				<div class="mb-3">
+				<div>
 					<Label class="w-24">Margin</Label>
 					<Select.Root
 						onSelectedChange={(e) => {
