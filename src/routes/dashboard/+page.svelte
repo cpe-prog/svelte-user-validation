@@ -81,19 +81,21 @@
 						</Select.Content>
 					</Select.Root>
 				</div>
-				<div class="mb-3">
-					<Label class="w-24">Custom:</Label>
-					<div class="m-0 flex gap-2 p-0">
-						<div class="flex h-9 items-center">
-							<Input bind:value={selectedWidth} />
-							<label for="">ft</label>
-						</div>
-						<div class="flex h-9 items-center">
-							<Input bind:value={selectedHeight} />
-							<label for="">ft</label>
+				{#if isOpen}
+					<div class="mb-3">
+						<Label class="w-24">Custom:</Label>
+						<div class="m-0 flex gap-2 p-0">
+							<div class="flex h-9 items-center">
+								<Input bind:value={selectedWidth} />
+								<label for="">ft</label>
+							</div>
+							<div class="flex h-9 items-center">
+								<Input bind:value={selectedHeight} />
+								<label for="">ft</label>
+							</div>
 						</div>
 					</div>
-				</div>
+				{/if}
 				<div class="mb-3">
 					<Label class="w-24">Paper Orientation</Label>
 					<Select.Root
