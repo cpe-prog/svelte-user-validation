@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { Button, buttonVariants } from '$lib/components/ui/button';
 	import * as Dialog from '$lib/components/ui/dialog/index.js';
+	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label/index.js';
 	import * as Select from '$lib/components/ui/select/index.js';
 	import { Toaster, toast } from 'svelte-sonner';
@@ -34,6 +35,8 @@
 			console.log('error url');
 		}
 	}
+
+	let isOpen = false;
 </script>
 
 <svelte:head>
@@ -63,12 +66,39 @@
 						<Select.Content>
 							<Select.Group>
 								{#each paperFormats as format}
-									<Select.Item value={format.value} label={format.label}>{format.label}</Select.Item
+									<Select.Item
+										on:click={() => {
+											isOpen = false;
+										}}
+										value={format.value}
+										label={format.label}>{format.label}</Select.Item
 									>
 								{/each}
+								<Select.Item
+									on:click={() => {
+										isOpen = true;
+									}}
+									value="custom"
+									label="Custom"
+								>
+									Custom</Select.Item
+								>
 							</Select.Group>
 						</Select.Content>
 					</Select.Root>
+				</div>
+				<div class={`mb-3 ${isOpen ? 'block' : 'hidden'}`}>
+					<Label class="w-24">Custom:</Label>
+					<div class="m-0 flex gap-2 p-0">
+						<div class="flex h-9 items-center">
+							<Input bind:value={selectedWidth} />
+							<label for="">ft</label>
+						</div>
+						<div class="flex h-9 items-center">
+							<Input bind:value={selectedHeight} />
+							<label for="">ft</label>
+						</div>
+					</div>
 				</div>
 				<div class="mb-3">
 					<Label class="w-24">Paper Orientation</Label>
