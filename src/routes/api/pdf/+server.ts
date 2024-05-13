@@ -9,16 +9,16 @@ export const GET = (async ({ setHeaders, url }) => {
 	const margins = Number(url.searchParams.get('margin'));
 
 	const settings: PageSettings = {
-		width: width,
-		height: height,
+		width: width * 72,
+		height: height * 72,
 		orientation: orientation === null || orientation === 'portrait' ? 'portrait' : 'landscape',
 		margins: margins
 	};
 
 	const content = generate(settings);
 
-	console.log(Number(url.searchParams.get('pageWidth')));
-	console.log(Number(url.searchParams.get('pageHeight')));
+	console.log(settings.width);
+	console.log(settings.height);
 
 	const pdf = await printPdf(content);
 

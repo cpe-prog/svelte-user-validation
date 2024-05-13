@@ -7,15 +7,17 @@
 	import { Toaster, toast } from 'svelte-sonner';
 	import { margins, paperFormats, paperOrientation } from './selection-details';
 
-	let selectedWidth: any;
-	let selectedHeight: any;
-	let selectedOrientation: any;
-	let selectedMargin: any;
+	let selectedWidth: number;
+	let selectedHeight: number;
+	let selectedOrientation: string;
+	let selectedMargin: number;
+
+	$: isOpen = false;
 
 	async function generatePDF() {
 		try {
 			var res = await fetch(
-				`/api/pdf/627bc49f-0f30-4f82-b443-21479ca87a11/?pageWidth=${selectedWidth}&&pageHeight=${selectedHeight}&&orientation=${selectedOrientation}&&margin=${selectedMargin}`
+				`/api/pdf/?pageWidth=${selectedWidth}&&pageHeight=${selectedHeight}&&orientation=${selectedOrientation}&&margin=${selectedMargin}`
 			);
 			console.log('has result');
 			if (!res.ok) {
@@ -35,8 +37,6 @@
 			console.log('error url');
 		}
 	}
-
-	let isOpen = false;
 </script>
 
 <svelte:head>
@@ -56,8 +56,8 @@
 					<Label class="w-24">Page Size</Label>
 					<Select.Root
 						onSelectedChange={(e) => {
-							selectedWidth = e?.value?.width;
-							selectedHeight = e?.value?.height;
+							selectedWidth = e?.value?.width / 72;
+							selectedHeight = e?.value?.height / 72;
 						}}
 					>
 						<Select.Trigger>
@@ -78,7 +78,7 @@
 									on:click={() => {
 										isOpen = true;
 									}}
-									value="custom"
+									value={paperFormats.values}
 									label="Custom"
 								>
 									Custom</Select.Item
@@ -87,19 +87,21 @@
 						</Select.Content>
 					</Select.Root>
 				</div>
-				<div class={`mb-3 ${isOpen ? 'block' : 'hidden'}`}>
-					<Label class="w-24">Custom:</Label>
-					<div class="m-0 flex gap-2 p-0">
-						<div class="flex h-9 items-center">
-							<Input bind:value={selectedWidth} />
-							<label for="">ft</label>
-						</div>
-						<div class="flex h-9 items-center">
-							<Input bind:value={selectedHeight} />
-							<label for="">ft</label>
+				{#if isOpen}
+					<div class="mb-3">
+						<Label class="w-24">Custom:</Label>
+						<div class="m-0 flex gap-2 p-0">
+							<div class="flex h-9 items-center">
+								<Input bind:value={selectedWidth} />
+								<label for="">ft</label>
+							</div>
+							<div class="flex h-9 items-center">
+								<Input bind:value={selectedHeight} />
+								<label for="">ft</label>
+							</div>
 						</div>
 					</div>
-				</div>
+				{/if}
 				<div class="mb-3">
 					<Label class="w-24">Paper Orientation</Label>
 					<Select.Root
