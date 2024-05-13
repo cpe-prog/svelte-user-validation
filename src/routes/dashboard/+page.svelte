@@ -56,8 +56,10 @@
 					<Label class="w-24">Page Size</Label>
 					<Select.Root
 						onSelectedChange={(e) => {
-							selectedWidth = e?.value?.width / 72;
-							selectedHeight = e?.value?.height / 72;
+							if (!isOpen) {
+								selectedWidth = e?.value?.width;
+								selectedHeight = e?.value?.height;
+							}
 						}}
 					>
 						<Select.Trigger>
@@ -67,41 +69,31 @@
 							<Select.Group>
 								{#each paperFormats as format}
 									<Select.Item
-										on:click={() => {
-											isOpen = false;
-										}}
+										on:click={() => (isOpen = false)}
 										value={format.value}
 										label={format.label}>{format.label}</Select.Item
 									>
 								{/each}
-								<Select.Item
-									on:click={() => {
-										isOpen = true;
-									}}
-									value={paperFormats.values}
-									label="Custom"
-								>
-									Custom</Select.Item
-								>
+								<Select.Item on:click={() => (isOpen = true)} value="custom" label="Custom">
+									Custom
+								</Select.Item>
 							</Select.Group>
 						</Select.Content>
 					</Select.Root>
 				</div>
-				{#if isOpen}
-					<div class="mb-3">
-						<Label class="w-24">Custom:</Label>
-						<div class="m-0 flex gap-2 p-0">
-							<div class="flex h-9 items-center">
-								<Input bind:value={selectedWidth} />
-								<label for="">ft</label>
-							</div>
-							<div class="flex h-9 items-center">
-								<Input bind:value={selectedHeight} />
-								<label for="">ft</label>
-							</div>
+				<div class="mb-3">
+					<Label class="w-24">Custom:</Label>
+					<div class="m-0 flex gap-2 p-0">
+						<div class="flex h-9 items-center">
+							<Input bind:value={selectedWidth} />
+							<label for="">ft</label>
+						</div>
+						<div class="flex h-9 items-center">
+							<Input bind:value={selectedHeight} />
+							<label for="">ft</label>
 						</div>
 					</div>
-				{/if}
+				</div>
 				<div class="mb-3">
 					<Label class="w-24">Paper Orientation</Label>
 					<Select.Root
